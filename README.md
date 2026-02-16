@@ -17,48 +17,52 @@
 ## 🛠️ Usage
 
 ### Prerequisites
-- Windows OS (uses `GlobalMemoryStatusEx` API)
-- **Option A:** .NET 8.0 Runtime (if running with `dotnet run`)
-- **Option B:** No runtime needed if you use the published single-file `.exe`
+
+- **Windows** is required (the tool uses the Windows `GlobalMemoryStatusEx` API for memory detection).
+- **On Windows:**  
+  - **Option A:** .NET 8.0 Runtime (if running with `dotnet run`).  
+  - **Option B:** No runtime needed if you use the published single-file `.exe`.
+- **On macOS and Linux:** You must install the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) to build and run from source. Note: the application relies on Windows-specific APIs, so it is **supported and tested on Windows only**; running on macOS or Linux is not guaranteed.
 
 ### Running the Tool
 
-**Yöntem 1 – Yayımlanmış .exe (önerilen)**  
-1. [Release](https://github.com/BurakGG/CpuMemoryStressTestByNetCore8/releases) sayfasından `CpuMemoryStressTest.exe` indirin veya projeyi kendiniz publish edin (aşağıya bakın).  
-2. `CpuMemoryStressTest.exe` dosyasını çalıştırın:
+**Method 1 – Published .exe (recommended on Windows)**  
+1. Download `CpuMemoryStressTest.exe` from the [Releases](https://github.com/BurakGG/CpuMemoryStressTestByNetCore8/releases) page, or publish it yourself (see below).  
+2. Run the executable:
    ```powershell
    .\CpuMemoryStressTest.exe
    ```
 
-**Yöntem 2 – Kaynak koddan**  
-1. Repoyu klonlayın:
-   ```powershell
+**Method 2 – From source**  
+1. Clone the repository:
+   ```bash
    git clone https://github.com/BurakGG/CpuMemoryStressTestByNetCore8.git
    cd CpuMemoryStressTestByNetCore8
    ```
-2. Uygulamayı çalıştırın:
-   ```powershell
+2. Run the application:
+   ```bash
    dotnet run
    ```
+   On **macOS and Linux** you need .NET 8 installed; run `dotnet --version` to confirm.
 
-*En iyi sonuç için yönetici olarak çalıştırın (bellek sayfalarının kilitlenmesi için).*  
-Testi durdurmak için `CTRL+C` kullanın.
+Run as Administrator (Windows) for best results (to allow locking/pinning memory pages).  
+Press **CTRL+C** to stop the test.
 
-### 📦 Build & Publish (.exe oluşturma)
+### 📦 Build & Publish (creating the .exe)
 
-Tek dosyalı, self-contained Windows x64 .exe üretmek için:
+To produce a single-file, self-contained Windows x64 .exe:
 
-```powershell
+```bash
 cd CpuMemoryStressTestByNetCore8
-dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish
+dotnet publish CpuMemoryStressTest.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish
 ```
 
-Çıktı: `publish\CpuMemoryStressTest.exe` — hedef makinede .NET yüklü olması gerekmez.
+Output: `publish/CpuMemoryStressTest.exe` — no .NET installation required on the target machine.
 
-Sadece framework-dependent (daha küçük, .NET 8 Runtime gerekir):
+Framework-dependent (smaller output; requires .NET 8 Runtime on the target):
 
-```powershell
-dotnet publish -c Release -r win-x64 -o publish
+```bash
+dotnet publish CpuMemoryStressTest.csproj -c Release -r win-x64 -o publish
 ```
 
 ---
